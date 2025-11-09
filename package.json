@@ -1,0 +1,22 @@
+{
+  "name": "hospital_api",
+  "version": "1.0.0",
+  "description": "PruebasSoftware Proyecto P1 Hospital",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint",
+    "lintFix": "eslint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-espe:JordanESPE/ProyectoP1_PruebasDeSoftware.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^9.39.1",
+    "express": "^5.1.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
+  }
+}
