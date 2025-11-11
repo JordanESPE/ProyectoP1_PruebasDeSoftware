@@ -57,6 +57,35 @@ describe('Medicamentos API', () => {
     expect(updated.body.price).toBe(4.00);
   });
 
+  // PUT: Actualizar múltiples campos
+  test('PUT /api/medicamentos/:id should update multiple fields', async () => {
+    const medicamento = {
+      name: 'Ibuprofeno',
+      description: 'Antiinflamatorio',
+      price: 6.00,
+      quantity: 80,
+      category: 'Antiinflamatorios',
+      laboratory: 'Pfizer'
+    };
+
+    const ibuprofeno = await request(app).post('/api/medicamentos').send(medicamento);
+    const id = ibuprofeno.body.id;
+
+    const updated = await request(app)
+      .put(`/api/medicamentos/${id}`)
+      .send({ 
+        name: 'Ibuprofeno 400mg',
+        description: 'Antiinflamatorio y analgésico',
+        quantity: 100
+      });
+
+    expect(updated.statusCode).toBe(200);
+    expect(updated.body.name).toBe('Ibuprofeno 400mg');
+    expect(updated.body.description).toBe('Antiinflamatorio y analgésico');
+    expect(updated.body.quantity).toBe(100);
+    expect(updated.body.price).toBe(6.00); // No cambia
+  });
+
   // DELETE
   test('DELETE /api/medicamentos/:id should delete a medicamento', async () => {
     const medicamento = {
@@ -77,5 +106,30 @@ describe('Medicamentos API', () => {
 
     const res = await request(app).get('/api/medicamentos');
     expect(res.body.find(m => m.id === id)).toBeUndefined();
+  });
+
+  // PUT: Medicamento no encontrado
+  test('PUT /api/medicamentos/:id should return 404 if medicamento not found', async () => {
+    const res = await request(app)
+      .put('/api/medicamentos/999999')
+      .send({ price: 10.00 });
+    
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('message', 'Medicamento not found');
+  });
+
+  // DELETE: Medicamento no encontrado
+  test('DELETE /api/medicamentos/:id should return 404 if medicamento not found', async () => {
+    const res = await request(app).delete('/api/medicamentos/999999');
+    
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('message', 'Medicamento not found');
+  });
+
+  // Prueba que el manejador 404 funcione
+  test('GET /ruta-inexistente - should return 404 for non-existent routes', async () => {
+    const res = await request(app).get('/ruta-inexistente');
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('message', 'Route not found');
   });
 });

@@ -55,6 +55,34 @@ describe('Pacientes API', () => {
     expect(updated.body.illness).toBe('Migraña');
   });
 
+  // PUT: Actualizar múltiples campos
+  test('PUT /api/pacientes/:id should update multiple fields', async () => {
+    const patient = {
+      name: 'Pedro',
+      lastName: 'Garcia',
+      email: 'pedro@example.com',
+      gender: 'Masculino',
+      illness: 'Diabetes'
+    };
+
+    const pedroGarcia = await request(app).post('/api/pacientes').send(patient);
+    const id = pedroGarcia.body.id;
+
+    const updated = await request(app)
+      .put(`/api/pacientes/${id}`)
+      .send({ 
+        name: 'Pedro Luis',
+        lastName: 'Garcia Perez',
+        email: 'pedroluis@example.com'
+      });
+
+    expect(updated.statusCode).toBe(200);
+    expect(updated.body.name).toBe('Pedro Luis');
+    expect(updated.body.lastName).toBe('Garcia Perez');
+    expect(updated.body.email).toBe('pedroluis@example.com');
+    expect(updated.body.illness).toBe('Diabetes'); // No cambia
+  });
+
   // DELETE
   test('DELETE /api/pacientes/:id should delete a patient', async () => {
     const patient = {
@@ -74,5 +102,30 @@ describe('Pacientes API', () => {
 
     const res = await request(app).get('/api/pacientes');
     expect(res.body.find(p => p.id === id)).toBeUndefined();
+  });
+
+  // PUT: Paciente no encontrado
+  test('PUT /api/pacientes/:id should return 404 if patient not found', async () => {
+    const res = await request(app)
+      .put('/api/pacientes/999999')
+      .send({ illness: 'Gripe' });
+    
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('message', 'Patient not found');
+  });
+
+  // DELETE: Paciente no encontrado
+  test('DELETE /api/pacientes/:id should return 404 if patient not found', async () => {
+    const res = await request(app).delete('/api/pacientes/999999');
+    
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('message', 'Patient not found');
+  });
+
+  // Prueba que el manejador 404 funcione
+  test('GET /ruta-inexistente - should return 404 for non-existent routes', async () => {
+    const res = await request(app).get('/ruta-inexistente');
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty('message', 'Route not found');
   });
 });
