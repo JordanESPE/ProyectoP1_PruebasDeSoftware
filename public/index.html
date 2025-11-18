@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital API - Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hospital API Interface</h1>
+            <p>Interfaz gráfica para gestionar Doctores, Pacientes, Medicamentos y Especialidades</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="doctors">Doctores</button>
+            <button class="tab-button" data-tab="patients">Pacientes</button>
+            <button class="tab-button" data-tab="medicines">Medicamentos</button>
+            <button class="tab-button" data-tab="specialties">Especialidades</button>
+            <button class="tab-button" data-tab="tests">Tests</button>
+        </div>el
+
+        <!-- Doctors Tab -->
+        <div id="doctors" class="tab-content active">
+            <h2>Gestión de Doctores</h2>
+            
+            <div class="form-section">
+                <h3>Agregar/Actualizar Doctor</h3>
+                <form id="doctorForm">
+                    <input type="hidden" id="doctorId">
+                    <div class="form-grid">
+                        <input type="text" id="doctorName" placeholder="Nombre *" required>
+                        <input type="text" id="doctorLastName" placeholder="Apellido *" required>
+                        <input type="text" id="doctorSpecialty" placeholder="Especialidad *" required>
+                        <input type="tel" id="doctorPhone" placeholder="Teléfono *" required>
+                        <input type="email" id="doctorEmail" placeholder="Email *" required>
+                        <input type="text" id="doctorLicense" placeholder="Número de Licencia *" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Guardar Doctor</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearDoctorForm()">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="list-section">
+                <h3>Lista de Doctores</h3>
+                <button class="btn btn-refresh" onclick="loadDoctors()">Actualizar</button>
+                <div id="doctorsList" class="items-list"></div>
+            </div>
+        </div>
+
+        <!-- Patients Tab -->
+        <div id="patients" class="tab-content">
+            <h2>Gestión de Pacientes</h2>
+            
+            <div class="form-section">
+                <h3>Agregar/Actualizar Paciente</h3>
+                <form id="patientForm">
+                    <input type="hidden" id="patientId">
+                    <div class="form-grid">
+                        <input type="text" id="patientName" placeholder="Nombre *" required>
+                        <input type="text" id="patientLastName" placeholder="Apellido *" required>
+                        <input type="email" id="patientEmail" placeholder="Email *" required>
+                        <select id="patientGender" required>
+                            <option value="">Seleccionar Género *</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                        <input type="text" id="patientIllness" placeholder="Enfermedad *" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Guardar Paciente</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearPatientForm()">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="list-section">
+                <h3>Lista de Pacientes</h3>
+                <button class="btn btn-refresh" onclick="loadPatients()">Actualizar</button>
+                <div id="patientsList" class="items-list"></div>
+            </div>
+        </div>
+
+        <!-- Medicines Tab -->
+        <div id="medicines" class="tab-content">
+            <h2>Gestión de Medicamentos</h2>
+            
+            <div class="form-section">
+                <h3>Agregar/Actualizar Medicamento</h3>
+                <form id="medicineForm">
+                    <input type="hidden" id="medicineId">
+                    <div class="form-grid">
+                        <input type="text" id="medicineName" placeholder="Nombre *" required>
+                        <input type="text" id="medicineDescription" placeholder="Descripción *" required>
+                        <input type="number" id="medicinePrice" placeholder="Precio *" step="0.01" required>
+                        <input type="number" id="medicineQuantity" placeholder="Cantidad *" required>
+                        <input type="text" id="medicineCategory" placeholder="Categoría *" required>
+                        <input type="text" id="medicineLaboratory" placeholder="Laboratorio *" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Guardar Medicamento</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearMedicineForm()">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="list-section">
+                <h3>Lista de Medicamentos</h3>
+                <button class="btn btn-refresh" onclick="loadMedicines()">Actualizar</button>
+                <div id="medicinesList" class="items-list"></div>
+            </div>
+        </div>
+
+        <!-- Specialties Tab -->
+        <div id="specialties" class="tab-content">
+            <h2>Gestión de Especialidades</h2>
+            
+            <div class="form-section">
+                <h3>Agregar/Actualizar Especialidad</h3>
+                <form id="specialtyForm">
+                    <input type="hidden" id="specialtyId">
+                    <div class="form-grid">
+                        <input type="text" id="specialtyName" placeholder="Nombre de Especialidad *" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Guardar Especialidad</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearSpecialtyForm()">Limpiar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="list-section">
+                <h3>Lista de Especialidades</h3>
+                <button class="btn btn-refresh" onclick="loadSpecialties()">Actualizar</button>
+                <div id="specialtiesList" class="items-list"></div>
+            </div>
+        </div>
+
+        <!-- Tests Tab -->
+        <div id="tests" class="tab-content">
+            <h2>Resultados de Tests</h2>
+            
+            <div class="test-section">
+                <!-- Test Configuration -->
+                <div class="form-section" style="margin-bottom: 20px;">
+                    <h3>⚙️ Configuración de Tests</h3>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #1e293b;">
+                            Selecciona tests para hacer fallar:
+                        </label>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px;">
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8fafc; border-radius: 6px; cursor: pointer;">
+                                <input type="checkbox" value="doctors-create" id="fail-doctors-create">
+                                <span>Crear Doctor (POST)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8fafc; border-radius: 6px; cursor: pointer;">
+                                <input type="checkbox" value="doctors-update" id="fail-doctors-update">
+                                <span>Actualizar Doctor (PUT)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8fafc; border-radius: 6px; cursor: pointer;">
+                                <input type="checkbox" value="doctors-delete" id="fail-doctors-delete">
+                                <span>Eliminar Doctor (DELETE)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8fafc; border-radius: 6px; cursor: pointer;">
+                                <input type="checkbox" value="patients-create" id="fail-patients-create">
+                                <span>Crear Paciente (POST)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8fafc; border-radius: 6px; cursor: pointer;">
+                                <input type="checkbox" value="medicines-create" id="fail-medicines-create">
+                                <span>Crear Medicamento (POST)</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px; background: #f8fafc; border-radius: 6px; cursor: pointer;">
+                                <input type="checkbox" value="specialties-duplicate" id="fail-specialties-duplicate">
+                                <span>Especialidad Duplicada</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Execution Buttons -->
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <button class="btn btn-primary btn-large" onclick="runCustomTests()" style="flex: 1; min-width: 250px;">
+                        ▶️ Ejecutar Tests
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearTestSelections()" style="padding: 12px 24px;">
+                        🔄 Limpiar Selección
+                    </button>
+                    <button class="btn" onclick="viewTestLog()" style="padding: 12px 24px; background-color: #8b5cf6; color: white;">
+                        📋 Ver Historial
+                    </button>
+                </div>
+
+                <!-- Test Results -->
+                <div id="testResults" class="test-results"></div>
+
+                <!-- Test Log -->
+                <div id="testLog" style="display: none; margin-top: 30px;">
+                    <h3 style="color: #1e293b; margin-bottom: 15px;">📜 Historial de Ejecuciones</h3>
+                    <div id="testLogContent" class="test-log-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

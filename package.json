@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "PruebasSoftware Proyecto P1 Hospital",
   "scripts": {
+    "start": "node server.js",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint",
     "lintFix": "eslint --fix"
   },
