@@ -28,6 +28,15 @@ describe('Especialidades API', () => {
     expect(res.body).toHaveProperty('message', 'Specialty name is required');
   });
 
+  test('should reject duplicate specialty', async () => {
+    await request(app).post('/api/especialidades').send({ name: 'Cardiology' });
+
+    const res = await request(app).post('/api/especialidades').send({ name: 'cardiology' });
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body).toHaveProperty('message', 'Specialty already exists');
+  });
+
   // PUT
   test('PUT /api/especialidades/:id should update an existing specialty', async () => {
     const specialty = { name: 'Oftalmología' };
@@ -51,6 +60,16 @@ describe('Especialidades API', () => {
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('message', 'Specialty not found');
   });
+
+  // test('PUT /api/especialidades/:id should return 400 if name is not provided', async () => {
+  //   const createRes = await request(app).post('/api/especialidades').send({ name: 'Medicina General' });
+  //   const specialtyId = createRes.body.id;
+    
+  //   const res = await request(app).put(`/api/especialidades/${specialtyId}`).send({});
+    
+  //   expect(res.statusCode).toBe(400);
+  //   expect(res.body).toHaveProperty('message', 'Name is required to update Specialty');
+  // });
 
   // DELETE
   test('DELETE /api/especialidades/:id should delete a specialty', async () => {

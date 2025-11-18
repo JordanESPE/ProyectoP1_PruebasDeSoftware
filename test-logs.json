@@ -1,5 +1,50 @@
 [
   {
+    "timestamp": "2025-11-18T01:30:19.335Z",
+    "date": "17/11/2025, 20:30:19",
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failedTests": [
+      "doctors-delete"
+    ],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/doctores.test.js\nPASS test/medicamentos.test.js\nPASS test/pacientes.test.js\nPASS test/especialidades.test.js\n\nTest Suites: 4 passed, 4 total\nTests:       36 passed, 36 total\nSnapshots:   0 total\nTime:        0.515 s, estimated 1 s\nRan all test suites.\n"
+  },
+  {
+    "timestamp": "2025-11-18T01:30:14.391Z",
+    "date": "17/11/2025, 20:30:14",
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failedTests": [
+      "specialties-duplicate"
+    ],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/doctores.test.js\nPASS test/medicamentos.test.js\nPASS test/pacientes.test.js\nPASS test/especialidades.test.js\n\nTest Suites: 4 passed, 4 total\nTests:       36 passed, 36 total\nSnapshots:   0 total\nTime:        0.508 s, estimated 1 s\nRan all test suites.\n"
+  },
+  {
+    "timestamp": "2025-11-18T01:30:09.833Z",
+    "date": "17/11/2025, 20:30:09",
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "failedTests": [
+      "doctors-update",
+      "specialties-duplicate"
+    ],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/doctores.test.js\nPASS test/medicamentos.test.js\nPASS test/pacientes.test.js\nPASS test/especialidades.test.js\n\nTest Suites: 4 passed, 4 total\nTests:       36 passed, 36 total\nSnapshots:   0 total\nTime:        0.5 s, estimated 1 s\nRan all test suites.\n"
+  },
+  {
+    "timestamp": "2025-11-18T01:29:57.713Z",
+    "date": "17/11/2025, 20:29:57",
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "failedTests": [
+      "doctors-create"
+    ],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nFAIL test/doctores.test.js\n  ● Doctors API › POST /api/doctores - should create a new doctor\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 500\n    Received: 201\n\n      27 |       .send(newDoctor);\n      28 |\n    > 29 |     expect(response.status).toBe(500); // MODIFIED TO FAIL\n         |                             ^\n      30 |     expect(response.body).toHaveProperty('id');\n      31 |     expect(response.body.name).toBe('Carlos');\n      32 |     expect(response.body.lastName).toBe('Ramírez');\n\n      at Object.toBe (test/doctores.test.js:29:29)\n\n  ● Doctors API › PUT /api/doctores/:id - should update an existing doctor\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 404\n\n      91 |       .send(updatedData);\n      92 |\n    > 93 |     expect(response.status).toBe(200);\n         |                             ^\n      94 |     expect(response.body.specialty).toBe('Neurocirugía');\n      95 |     expect(response.body.phone).toBe('0912345678');\n      96 |     expect(response.body.name).toBe('Carlos'); // Should not change\n\n      at Object.toBe (test/doctores.test.js:93:29)\n\n  ● Doctors API › DELETE /api/doctores/:id - should delete an existing doctor\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 200\n    Received: 404\n\n      111 |     const response = await request(app).delete(`/api/doctores/${doctorId}`);\n      112 |\n    > 113 |     expect(response.status).toBe(200);\n          |                             ^\n      114 |     expect(response.body).toHaveProperty('id');\n      115 |     expect(response.body.id).toBe(doctorId);\n      116 |   });\n\n      at Object.toBe (test/doctores.test.js:113:29)\n\n  ● Doctors API › GET /api/doctores - should return empty array after deleting\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 0\n    Received: 1\n\n      128 |     const response = await request(app).get('/api/doctores');\n      129 |     expect(response.status).toBe(200);\n    > 130 |     expect(response.body.length).toBe(0);\n          |                                  ^\n      131 |   });\n      132 | });\n      133 |\n\n      at Object.toBe (test/doctores.test.js:130:34)\n\nPASS test/medicamentos.test.js\nPASS test/pacientes.test.js\nPASS test/especialidades.test.js\n\nTest Suites: 1 failed, 3 passed, 4 total\nTests:       4 failed, 32 passed, 36 total\nSnapshots:   0 total\nTime:        0.685 s, estimated 1 s\nRan all test suites.\n"
+  },
+  {
     "timestamp": "2025-11-18T01:15:39.810Z",
     "date": "17/11/2025, 20:15:39",
     "passed": 4,

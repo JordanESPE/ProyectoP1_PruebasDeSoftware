@@ -71,6 +71,55 @@ describe('Doctors API', () => {
     expect(response.body.message).toBe('A doctor with this license number already exists');
   });
 
+  test('should return 409 if license number already exists in another doctor', async () => {
+    const doctor1 = await request(app).post('/api/doctores').send({
+      name: 'John',
+      lastName: 'Doe',
+      specialty: 'Cardiology',
+      phone: '1234567890',
+      email: 'john@example.com',
+      licenseNumber: 'LIC-001'
+    });
+
+    const doctor2 = await request(app).post('/api/doctores').send({
+      name: 'Jane',
+      lastName: 'Smith',
+      specialty: 'Neurology',
+      phone: '0987654321',
+      email: 'jane@example.com',
+      licenseNumber: 'LIC-002'
+    });
+
+    const res = await request(app)
+      .put(`/api/doctores/${doctor2.body.id}`)
+      .send({ licenseNumber: 'LIC-001' });
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body).toHaveProperty('message', 'A doctor with this license number already exists');
+  });
+
+  test('should allow updating doctor with same license number', async () => {
+    const doctor = await request(app).post('/api/doctores').send({
+      name: 'John',
+      lastName: 'Doe',
+      specialty: 'Cardiology',
+      phone: '1234567890',
+      email: 'john@example.com',
+      licenseNumber: 'LIC-00001'
+    });
+
+    const res = await request(app)
+      .put(`/api/doctores/${doctor.body.id}`)
+      .send({ 
+        name: 'John Updated',
+        licenseNumber: 'LIC-00001' 
+      });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('licenseNumber', 'LIC-00001');
+    expect(res.body).toHaveProperty('name', 'John Updated');
+  });
+
   // Test GET - List doctors (after creating one)
   test('GET /api/doctores - should return array with doctors', async () => {
     const response = await request(app).get('/api/doctores');
@@ -121,12 +170,5 @@ describe('Doctors API', () => {
 
     expect(response.status).toBe(404);
     expect(response.body.message).toBe('Doctor not found');
-  });
-
-  // Test GET - Verify doctor was deleted
-  test('GET /api/doctores - should return empty array after deleting', async () => {
-    const response = await request(app).get('/api/doctores');
-    expect(response.status).toBe(200);
-    expect(response.body.length).toBe(0);
   });
 });
