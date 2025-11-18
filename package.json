@@ -28,8 +28,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/test/",
-      "/coverage/",
-      "/src/testRunner.js"
+      "src/testRunner.js"
     ],
     "collectCoverageFrom": [
       "src/**/*.js",

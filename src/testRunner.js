@@ -4,8 +4,8 @@ const path = require('node:path');
 
 /**
  * Test Runner Module
- * Handles test execution with custom failure configurations
- * This module is excluded from coverage as it manipulates test files
+ * Handles test execution with custom failure configuration
+ * This module is separated from app.js to improve test coverage
  */
 
 const testFiles = {
@@ -42,78 +42,8 @@ const testFiles = {
 };
 
 /**
- * Modifies test files according to the failTests configuration
- * @param {Array} failTests - Array of test keys to modify
- * @returns {Array} Array of objects containing file path and original content
- */
-function modifyTestFiles(failTests) {
-  const modifiedFiles = [];
-
-  if (failTests && Array.isArray(failTests) && failTests.length > 0) {
-    failTests.forEach(testKey => {
-      const testConfig = testFiles[testKey];
-      if (testConfig) {
-        try {
-          const originalContent = fs.readFileSync(testConfig.file, 'utf8');
-          const modifiedContent = originalContent.replace(testConfig.find, testConfig.replace);
-          
-          if (modifiedContent !== originalContent) {
-            fs.writeFileSync(testConfig.file, modifiedContent);
-            modifiedFiles.push({
-              file: testConfig.file,
-              original: originalContent
-            });
-          }
-        } catch (fileError) {
-          console.error(`Error modifying ${testConfig.file}:`, fileError);
-        }
-      }
-    });
-  }
-
-  return modifiedFiles;
-}
-
-/**
- * Restores modified test files to their original state
- * @param {Array} modifiedFiles - Array of objects containing file path and original content
- */
-function restoreTestFiles(modifiedFiles) {
-  modifiedFiles.forEach(({ file, original }) => {
-    try {
-      fs.writeFileSync(file, original);
-    } catch (restoreError) {
-      console.error(`Error restoring ${file}:`, restoreError);
-    }
-  });
-}
-
-/**
- * Parses test output to extract test results
- * @param {String} output - Test output from npm test
- * @returns {Object} Parsed test results
- */
-function parseTestResults(output) {
-  const passedMatch = output.match(/(\d+)\s+passed/);
-  const failedMatch = output.match(/(\d+)\s+failed/);
-  const suitesPassedMatch = output.match(/Test Suites:.*?(\d+)\s+passed/);
-  
-  const passed = passedMatch ? Number.parseInt(passedMatch[1]) : 0;
-  const failed = failedMatch ? Number.parseInt(failedMatch[1]) : 0;
-  const total = passed + failed;
-  const suites = suitesPassedMatch ? Number.parseInt(suitesPassedMatch[1]) : 0;
-
-  return {
-    passed,
-    failed,
-    total: total > 0 ? total : 36,
-    suites
-  };
-}
-
-/**
- * Saves test log to file
- * @param {Object} logData - Test log data to save
+ * Saves test execution log to file
+ * @param {Object} logData - Test execution data
  */
 function saveTestLog(logData) {
   try {
@@ -121,14 +51,18 @@ function saveTestLog(logData) {
     let logs = [];
     
     if (fs.existsSync(logFile)) {
-      const existingData = fs.readFileSync(logFile, 'utf8');
-      logs = JSON.parse(existingData);
+      const fileData = fs.readFileSync(logFile, 'utf8');
+      logs = JSON.parse(fileData);
     }
     
     logs.unshift({
       timestamp: new Date().toISOString(),
       date: new Date().toLocaleString('es-ES'),
-      ...logData
+      passed: logData.passed,
+      failed: logData.failed,
+      total: logData.total,
+      failedTests: logData.failedTests || [],
+      output: logData.output
     });
     
     // Keep only last 100 entries
@@ -137,14 +71,14 @@ function saveTestLog(logData) {
     }
     
     fs.writeFileSync(logFile, JSON.stringify(logs, null, 2));
-  } catch (logError) {
-    console.error('Error saving test log:', logError);
+  } catch (error) {
+    console.error('Error saving test log:', error);
   }
 }
 
 /**
- * Runs tests with custom failure configuration
- * @param {Array} failTests - Array of test keys to fail
+ * Runs tests with optional modifications to make specific tests fail
+ * @param {Array} failTests - Array of test keys to modify
  * @param {Function} callback - Callback function with (error, result)
  */
 function runTests(failTests, callback) {
@@ -152,34 +86,66 @@ function runTests(failTests, callback) {
   
   try {
     // Modify selected tests
-    const modified = modifyTestFiles(failTests);
-    modifiedFiles.push(...modified);
+    if (failTests && Array.isArray(failTests) && failTests.length > 0) {
+      failTests.forEach(testKey => {
+        const testConfig = testFiles[testKey];
+        if (testConfig) {
+          try {
+            const originalContent = fs.readFileSync(testConfig.file, 'utf8');
+            const modifiedContent = originalContent.replace(testConfig.find, testConfig.replace);
+            
+            if (modifiedContent !== originalContent) {
+              fs.writeFileSync(testConfig.file, modifiedContent);
+              modifiedFiles.push({
+                file: testConfig.file,
+                original: originalContent
+              });
+            }
+          } catch (fileError) {
+            console.error(`Error modifying ${testConfig.file}:`, fileError);
+          }
+        }
+      });
+    }
     
     // Run tests
     exec('npm test', { cwd: path.join(__dirname, '..') }, (error, stdout, stderr) => {
-      // Always restore files
-      restoreTestFiles(modifiedFiles);
+      // Restore all modified files
+      modifiedFiles.forEach(({ file, original }) => {
+        try {
+          fs.writeFileSync(file, original);
+        } catch (restoreError) {
+          console.error(`Error restoring ${file}:`, restoreError);
+        }
+      });
       
       // Parse test results
       const output = stdout + stderr;
-      const results = parseTestResults(output);
+      const passedMatch = output.match(/(\d+)\s+passed/);
+      const failedMatch = output.match(/(\d+)\s+failed/);
+      const suitesPassedMatch = output.match(/Test Suites:.*?(\d+)\s+passed/);
+      
+      const passed = passedMatch ? Number.parseInt(passedMatch[1]) : 0;
+      const failed = failedMatch ? Number.parseInt(failedMatch[1]) : 0;
+      const total = passed + failed;
+      const suites = suitesPassedMatch ? Number.parseInt(suitesPassedMatch[1]) : 0;
       
       const result = {
         success: true,
-        testsPassed: results.failed === 0,
-        totalTests: results.total,
-        passed: results.passed,
-        failed: results.failed,
-        suites: results.suites,
+        testsPassed: failed === 0,
+        totalTests: total > 0 ? total : 36,
+        passed: passed,
+        failed: failed,
+        suites: suites,
         output: output || 'No output received',
         error: null
       };
       
       // Save log
       saveTestLog({
-        passed: results.passed,
-        failed: results.failed,
-        total: results.total,
+        passed: passed,
+        failed: failed,
+        total: total,
         failedTests: failTests || [],
         output: output
       });
@@ -188,24 +154,30 @@ function runTests(failTests, callback) {
     });
   } catch (error) {
     // Restore files in case of error
-    restoreTestFiles(modifiedFiles);
-    callback(error, null);
+    modifiedFiles.forEach(({ file, original }) => {
+      try {
+        fs.writeFileSync(file, original);
+      } catch (restoreError) {
+        console.error(`Error restoring ${file}:`, restoreError);
+      }
+    });
+    
+    callback(error);
   }
 }
 
 /**
  * Gets test logs from file
- * @returns {Array} Array of test logs
+ * @returns {Array} Array of test log entries
  */
 function getTestLogs() {
+  const logFile = path.join(__dirname, '../test-logs.json');
+  
   try {
-    const logFile = path.join(__dirname, '../test-logs.json');
-    
     if (fs.existsSync(logFile)) {
       const logData = fs.readFileSync(logFile, 'utf8');
       return JSON.parse(logData);
     }
-    
     return [];
   } catch (error) {
     throw new Error(`Error reading test logs: ${error.message}`);
@@ -214,5 +186,6 @@ function getTestLogs() {
 
 module.exports = {
   runTests,
-  getTestLogs
+  getTestLogs,
+  saveTestLog
 };

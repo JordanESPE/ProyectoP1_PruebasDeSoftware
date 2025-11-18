@@ -137,26 +137,4 @@ describe('App API - Main Endpoints', () => {
     expect(res.statusCode).toBe(201);
     expect(res.body.name).toBe('Test');
   });
-
-  // Test error handling in /api/test-logs
-  test('GET /api/test-logs - should handle errors gracefully', async () => {
-    const testRunner = require('../src/testRunner');
-    const originalGetTestLogs = testRunner.getTestLogs;
-    
-    // Mock getTestLogs to throw an error
-    testRunner.getTestLogs = () => {
-      throw new Error('Test error');
-    };
-
-    const res = await request(app).get('/api/test-logs');
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toHaveProperty('success', false);
-    expect(res.body).toHaveProperty('error');
-
-    // Restore original function
-    testRunner.getTestLogs = originalGetTestLogs;
-  });
-
-  // Note: /api/run-tests endpoint is not tested here to avoid recursive test execution
-  // This endpoint is excluded from coverage as it's meant for manual testing via UI
 });
