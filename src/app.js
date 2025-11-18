@@ -4,6 +4,7 @@ const patientRoutes = require('./routes/pacientes.routes');
 const medicamentosRoutes = require('./routes/medicamentos.routes');
 const especialidadesRoutes = require('./routes/especialidades.routes');
 const doctoresRoutes = require('./routes/doctores.routes');
+const testRunner = require('./testRunner');
 
 const app = express(); // Creates an Express application instance
 

@@ -1,5 +1,25 @@
 [
   {
+    "timestamp": "2025-11-18T13:48:25.868Z",
+    "date": "18/11/2025, 8:48:25",
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "failedTests": [
+      "specialties-duplicate"
+    ],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/doctores.test.js\nPASS test/especialidades.test.js\nFAIL test/app.test.js\n  ● App API - Main Endpoints › GET /api/test-logs - should handle errors gracefully\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 500\n    Received: 200\n\n    \u001b[0m \u001b[90m 150 |\u001b[39m\n     \u001b[90m 151 |\u001b[39m     \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request(app)\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/test-logs'\u001b[39m)\u001b[33m;\u001b[39m\n    \u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 152 |\u001b[39m     expect(res\u001b[33m.\u001b[39mstatusCode)\u001b[33m.\u001b[39mtoBe(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n     \u001b[90m 153 |\u001b[39m     expect(res\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 154 |\u001b[39m     expect(res\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'error'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 155 |\u001b[39m\u001b[0m\n\n      at Object.toBe (test/app.test.js:152:28)\n\nPASS test/pacientes.test.js\nPASS test/medicamentos.test.js\n\nTest Suites: 1 failed, 4 passed, 5 total\nTests:       1 failed, 53 passed, 54 total\nSnapshots:   0 total\nTime:        3.445 s\nRan all test suites.\n"
+  },
+  {
+    "timestamp": "2025-11-18T13:48:11.263Z",
+    "date": "18/11/2025, 8:48:11",
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "failedTests": [],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/especialidades.test.js\nPASS test/doctores.test.js\nFAIL test/app.test.js\n  ● App API - Main Endpoints › GET /api/test-logs - should handle errors gracefully\n\n    expect(received).toBe(expected) // Object.is equality\n\n    Expected: 500\n    Received: 200\n\n    \u001b[0m \u001b[90m 150 |\u001b[39m\n     \u001b[90m 151 |\u001b[39m     \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m request(app)\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m'/api/test-logs'\u001b[39m)\u001b[33m;\u001b[39m\n    \u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 152 |\u001b[39m     expect(res\u001b[33m.\u001b[39mstatusCode)\u001b[33m.\u001b[39mtoBe(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m     |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n     \u001b[90m 153 |\u001b[39m     expect(res\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'success'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 154 |\u001b[39m     expect(res\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoHaveProperty(\u001b[32m'error'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m 155 |\u001b[39m\u001b[0m\n\n      at Object.toBe (test/app.test.js:152:28)\n\nPASS test/pacientes.test.js\nPASS test/medicamentos.test.js\n\nTest Suites: 1 failed, 4 passed, 5 total\nTests:       1 failed, 53 passed, 54 total\nSnapshots:   0 total\nTime:        3.851 s, estimated 6 s\nRan all test suites.\n"
+  },
+  {
     "timestamp": "2025-11-18T01:30:19.335Z",
     "date": "17/11/2025, 20:30:19",
     "passed": 4,
