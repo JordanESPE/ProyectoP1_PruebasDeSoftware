@@ -1,5 +1,23 @@
 [
   {
+    "timestamp": "2025-11-18T14:25:50.628Z",
+    "date": "18/11/2025, 9:25:50",
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "failedTests": [],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/especialidades.test.js\nPASS test/doctores.test.js\nPASS test/app.test.js\nPASS test/pacientes.test.js\nPASS test/medicamentos.test.js\n\nTest Suites: 5 passed, 5 total\nTests:       53 passed, 53 total\nSnapshots:   0 total\nTime:        3.141 s\nRan all test suites.\n"
+  },
+  {
+    "timestamp": "2025-11-18T14:08:10.877Z",
+    "date": "18/11/2025, 9:08:10",
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "failedTests": [],
+    "output": "\n> hospital_api@1.0.0 test\n> jest\n\nPASS test/especialidades.test.js\nPASS test/doctores.test.js\nPASS test/app.test.js\nPASS test/medicamentos.test.js\nPASS test/pacientes.test.js\n\nTest Suites: 5 passed, 5 total\nTests:       53 passed, 53 total\nSnapshots:   0 total\nTime:        3.907 s\nRan all test suites.\n"
+  },
+  {
     "timestamp": "2025-11-18T14:01:28.289Z",
     "date": "18/11/2025, 9:01:28",
     "passed": 0,

@@ -5,6 +5,7 @@ const API_URL = 'http://localhost:3000/api';
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     loadDoctors();
+    loadSpecialtyOptions();
     initForms();
 });
 
@@ -39,6 +40,7 @@ function openTab(tabName) {
     switch(tabName) {
         case 'doctors':
             loadDoctors();
+            loadSpecialtyOptions();
             break;
         case 'patients':
             loadPatients();
@@ -72,6 +74,28 @@ function showToast(message, type = 'success') {
 }
 
 // ==================== DOCTORS ====================
+
+async function loadSpecialtyOptions() {
+    try {
+        const response = await fetch(`${API_URL}/especialidades`);
+        const specialties = await response.json();
+        
+        const select = document.getElementById('doctorSpecialty');
+        // Mantener la opción por defecto y limpiar las demás
+        select.innerHTML = '<option value="">Seleccionar Especialidad *</option>';
+        
+        // Agregar las especialidades como opciones
+        specialties.forEach(specialty => {
+            const option = document.createElement('option');
+            option.value = specialty.name;
+            option.textContent = specialty.name;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading specialty options:', error);
+        showToast('Error al cargar especialidades', 'error');
+    }
+}
 
 async function loadDoctors() {
     try {
@@ -471,6 +495,8 @@ async function handleSpecialtySubmit(e) {
             showToast(`Especialidad ${id ? 'actualizada' : 'creada'} exitosamente`);
             clearSpecialtyForm();
             loadSpecialties();
+            // Actualizar el dropdown de especialidades en el formulario de doctores
+            loadSpecialtyOptions();
         } else {
             const error = await response.json();
             showToast(error.message, 'error');
@@ -499,6 +525,8 @@ async function deleteSpecialty(id) {
         if (response.ok) {
             showToast('Especialidad eliminada exitosamente');
             loadSpecialties();
+            // Actualizar el dropdown de especialidades en el formulario de doctores
+            loadSpecialtyOptions();
         } else {
             showToast('Error al eliminar especialidad', 'error');
         }

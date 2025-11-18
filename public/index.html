@@ -19,7 +19,6 @@
             <button class="tab-button" data-tab="patients">Pacientes</button>
             <button class="tab-button" data-tab="medicines">Medicamentos</button>
             <button class="tab-button" data-tab="specialties">Especialidades</button>
-            <button class="tab-button" data-tab="tests">Tests</button>
         </div>
 
         <!-- Doctors Tab -->
@@ -33,7 +32,9 @@
                     <div class="form-grid">
                         <input type="text" id="doctorName" placeholder="Nombre *" required>
                         <input type="text" id="doctorLastName" placeholder="Apellido *" required>
-                        <input type="text" id="doctorSpecialty" placeholder="Especialidad *" required>
+                        <select id="doctorSpecialty" required>
+                            <option value="">Seleccionar Especialidad *</option>
+                        </select>
                         <input type="tel" id="doctorPhone" placeholder="Teléfono *" required>
                         <input type="email" id="doctorEmail" placeholder="Email *" required>
                         <input type="text" id="doctorLicense" placeholder="Número de Licencia *" required>
@@ -96,8 +97,8 @@
                     <div class="form-grid">
                         <input type="text" id="medicineName" placeholder="Nombre *" required>
                         <input type="text" id="medicineDescription" placeholder="Descripción *" required>
-                        <input type="number" id="medicinePrice" placeholder="Precio *" step="0.01" required>
-                        <input type="number" id="medicineQuantity" placeholder="Cantidad *" required>
+                        <input type="number" id="medicinePrice" placeholder="Precio *" step="0.01" min="0.1" required>
+                        <input type="number" id="medicineQuantity" placeholder="Cantidad *" min="1"step="1" required   >
                         <input type="text" id="medicineCategory" placeholder="Categoría *" required>
                         <input type="text" id="medicineLaboratory" placeholder="Laboratorio *" required>
                     </div>
@@ -124,7 +125,7 @@
                 <form id="specialtyForm">
                     <input type="hidden" id="specialtyId">
                     <div class="form-grid">
-                        <input type="text" id="specialtyName" placeholder="Nombre de Especialidad *" required>
+                        <input type="text" id="specialtyName" placeholder="Nombre de Especialidad *" required pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios">
                     </div>
                     <div class="form-buttons">
                         <button type="submit" class="btn btn-primary">Guardar Especialidad</button>
@@ -147,7 +148,7 @@
             <div class="test-section">
                 <!-- Test Configuration -->
                 <div class="form-section" style="margin-bottom: 20px;">
-                    <h3>⚙️ Configuración de Tests</h3>
+                    <h3>Configuración de Tests</h3>
                     <div style="margin-bottom: 15px;">
                         <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #1e293b;">
                             Selecciona tests para hacer fallar:
@@ -184,13 +185,13 @@
                 <!-- Test Execution Buttons -->
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
                     <button class="btn btn-primary btn-large" onclick="runCustomTests()" style="flex: 1; min-width: 250px;">
-                        ▶️ Ejecutar Tests
+                        Ejecutar Tests
                     </button>
                     <button class="btn btn-secondary" onclick="clearTestSelections()" style="padding: 12px 24px;">
-                        🔄 Limpiar Selección
+                        Limpiar Selección
                     </button>
                     <button class="btn" onclick="viewTestLog()" style="padding: 12px 24px; background-color: #8b5cf6; color: white;">
-                        📋 Ver Historial
+                        Ver Historial
                     </button>
                 </div>
 
