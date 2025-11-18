@@ -39,33 +39,33 @@ app.post('/api/run-tests', (req, res) => {
   const testFiles = {
     'doctors-create': {
       file: path.join(__dirname, '../test/doctores.test.js'),
-      find: "expect(response.status).toBe(201);",
-      replace: "expect(response.status).toBe(500); // MODIFIED TO FAIL"
+      find: 'expect(response.status).toBe(201);',
+      replace: 'expect(response.status).toBe(500); // MODIFIED TO FAIL'
     },
     'doctors-update': {
       file: path.join(__dirname, '../test/doctores.test.js'),
-      find: "expect(response.status).toBe(200);\n    expect(response.body.name).toBe('Dr. Juan Actualizado');",
-      replace: "expect(response.status).toBe(404); // MODIFIED TO FAIL\n    expect(response.body.name).toBe('Dr. Juan Actualizado');"
+      find: 'expect(response.status).toBe(200);\n    expect(response.body.name).toBe(\'Dr. Juan Actualizado\');',
+      replace: 'expect(response.status).toBe(404); // MODIFIED TO FAIL\n    expect(response.body.name).toBe(\'Dr. Juan Actualizado\');'
     },
     'doctors-delete': {
       file: path.join(__dirname, '../test/doctores.test.js'),
-      find: "const deleteResponse = await request(app).delete(`/api/doctores/${doctorId}`);\n    expect(deleteResponse.status).toBe(200);",
-      replace: "const deleteResponse = await request(app).delete(`/api/doctores/${doctorId}`);\n    expect(deleteResponse.status).toBe(404); // MODIFIED TO FAIL"
+      find: 'const deleteResponse = await request(app).delete(`/api/doctores/${doctorId}`);\n    expect(deleteResponse.status).toBe(200);',
+      replace: 'const deleteResponse = await request(app).delete(`/api/doctores/${doctorId}`);\n    expect(deleteResponse.status).toBe(404); // MODIFIED TO FAIL'
     },
     'patients-create': {
       file: path.join(__dirname, '../test/pacientes.test.js'),
-      find: "expect(response.status).toBe(201);",
-      replace: "expect(response.status).toBe(500); // MODIFIED TO FAIL"
+      find: 'expect(response.status).toBe(201);',
+      replace: 'expect(response.status).toBe(500); // MODIFIED TO FAIL'
     },
     'medicines-create': {
       file: path.join(__dirname, '../test/medicamentos.test.js'),
-      find: "expect(response.status).toBe(201);",
-      replace: "expect(response.status).toBe(500); // MODIFIED TO FAIL"
+      find: 'expect(response.status).toBe(201);',
+      replace: 'expect(response.status).toBe(500); // MODIFIED TO FAIL'
     },
     'specialties-duplicate': {
       file: path.join(__dirname, '../test/especialidades.test.js'),
-      find: "expect(response2.status).toBe(409);",
-      replace: "expect(response2.status).toBe(201); // MODIFIED TO FAIL"
+      find: 'expect(response2.status).toBe(409);',
+      replace: 'expect(response2.status).toBe(201); // MODIFIED TO FAIL'
     }
   };
   

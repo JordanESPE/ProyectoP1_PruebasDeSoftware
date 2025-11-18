@@ -46,7 +46,7 @@ function updateMedicamento(req, res) {
   const { id } = req.params;
   const { name, description, price, quantity, category, laboratory } = req.body;
 
-  const i = medicamentos.findIndex(m => m.id == id);
+  const i = medicamentos.findIndex(m => m.id === Number.parseInt(id));
   if (i === -1) return res.status(404).json({ message: 'Medicamento not found' });
 
   // Update all values
@@ -64,7 +64,7 @@ function updateMedicamento(req, res) {
 function deleteMedicamento(req, res) {
   const { id } = req.params;
   
-  const medicamentoIndex = medicamentos.findIndex(m => m.id == id);
+  const medicamentoIndex = medicamentos.findIndex(m => m.id === Number.parseInt(id));
   if (medicamentoIndex === -1) return res.status(404).json({ message: 'Medicamento not found' });
 
   const deleted = medicamentos.splice(medicamentoIndex, 1);  // Full delete, no recover

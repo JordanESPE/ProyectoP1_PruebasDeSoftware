@@ -18,7 +18,7 @@ function addnewSpecialty(req, res) {
 
   // Validación especialidad duplicada
   if (especialidades.some(e => e.name.toLowerCase() === name.toLowerCase())) {
-    return res.status(409).json({ message: "Specialty already exists" });
+    return res.status(409).json({ message: 'Specialty already exists' });
   }
 
   // objeto especialidad
@@ -39,7 +39,7 @@ function updateSpecialty(req, res) {
   const { id } = req.params;
   const { name } = req.body;
 
-  const i = especialidades.findIndex(e => e.id == id);
+  const i = especialidades.findIndex(e => e.id === Number.parseInt(id));
   if (i === -1) {
     return res.status(404).json({ message: 'Specialty not found' });
   }
@@ -56,7 +56,7 @@ function updateSpecialty(req, res) {
 function deleteSpecialty(req, res) {
   const { id } = req.params;
 
-  const specialtyIndex = especialidades.findIndex(e => e.id == id);
+  const specialtyIndex = especialidades.findIndex(e => e.id === Number.parseInt(id));
   if (specialtyIndex === -1) {
     return res.status(404).json({ message: 'Specialty not found' });
   }

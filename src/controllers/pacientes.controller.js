@@ -45,7 +45,7 @@ function updatePatient(req, res) {
   const { id } = req.params;
   const { name, lastName, email, gender, illness } = req.body;
 
-  const i = pacientes.findIndex(p => p.id == id);
+  const i = pacientes.findIndex(p => p.id === Number.parseInt(id));
   if (i === -1) return res.status(404).json({ message: 'Patient not found' });
 
   // Update all values
@@ -61,8 +61,8 @@ function updatePatient(req, res) {
 // DELETE
 function deletePatient(req, res) {
   const { id } = req.params;
-  
-  const patientIndex = pacientes.findIndex(p => p.id == id);
+
+  const patientIndex = pacientes.findIndex(p => p.id === Number.parseInt(id));
   if (patientIndex === -1) return res.status(404).json({ message: 'Patient not found' });
 
   const deleted = pacientes.splice(patientIndex, 1);  // Full delete, no recover

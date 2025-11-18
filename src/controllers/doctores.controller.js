@@ -57,14 +57,14 @@ function updateDoctor(req, res) {
   const { id } = req.params;
   const { name, lastName, specialty, phone, email, licenseNumber } = req.body;
 
-  const i = doctors.findIndex(d => d.id == id);
+  const i = doctors.findIndex(d => d.id === Number.parseInt(id));
   if (i === -1) {
     return res.status(404).json({ message: 'Doctor not found' });
   }
 
   // If attempting to update license number, verify it doesn't exist in another doctor
   if (licenseNumber && licenseNumber !== doctors[i].licenseNumber) {
-    if (doctors.some(d => d.licenseNumber === licenseNumber && d.id != id)) {
+    if (doctors.some(d => d.licenseNumber === licenseNumber && d.id !== Number.parseInt(id))) {
       return res.status(409).json({ 
         message: 'A doctor with this license number already exists' 
       });
@@ -86,7 +86,7 @@ function updateDoctor(req, res) {
 function deleteDoctor(req, res) {
   const { id } = req.params;
 
-  const doctorIndex = doctors.findIndex(d => d.id == id);
+  const doctorIndex = doctors.findIndex(d => d.id === Number.parseInt(id));
   if (doctorIndex === -1) {
     return res.status(404).json({ message: 'Doctor not found' });
   }
